@@ -7,7 +7,7 @@ if __name__ == '__main__':
 
     caminho_parquet = pipeline(url)
     bucket_name = s3_buckets_names()
-    object_name = f'raw/{nomeArquivo()}.parquet'
+    object_name = 'raw/IBOVDia.parquet'
 
     print(s3_upload(caminho_parquet, bucket_name, object_name))
 

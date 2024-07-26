@@ -43,6 +43,7 @@ def ajust_dataFrame(path: str) -> pd.DataFrame:
     
     mask = ~df['Código'].isnull()
     df = df[mask]
+    df['Ação'] = df['Ação'].str.replace('/', '')
 
     df['Part. (%)Acum.'] = df['Part. (%)Acum.'].str.replace(',', '.')
     df['Part. (%)Acum.'] = df['Part. (%)Acum.'].astype(float)
