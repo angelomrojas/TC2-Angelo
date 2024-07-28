@@ -1,5 +1,9 @@
 from data import nodes
-from datetime import datetime
+from datetime import datetime, timedelta
+from constantes import DOWNLOAD_DIR
+from os import listdir
+from os import listdir
+from os.path import isfile, join
 
 def pipeline(path: str) -> str:
 
@@ -9,8 +13,18 @@ def pipeline(path: str) -> str:
 
     return caminho_parquet
 
+
 def nomeArquivo() -> str:
-    now = datetime.now()
-    ano = now.strftime('%y')
-    nomeArquivo = f'IBOVDia_{now.day:02}-{now.month:02}-{ano}'
-    return nomeArquivo
+
+    data_referencia = datetime.now()
+    dia_semana = data_referencia.weekday()
+
+    if dia_semana == 5:
+        data_referencia = data_referencia + timedelta(days=2)
+    elif dia_semana == 6:
+        data_referencia = data_referencia + timedelta(days=1)
+    ano = data_referencia.strftime('%y')
+
+    nome_arquivo = f'IBOVDia_{data_referencia.day:02}-{data_referencia.month:02}-{ano}'
+
+    return nome_arquivo

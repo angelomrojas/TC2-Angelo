@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
-from datetime import datetime
+from datetime import datetime, timedelta
 from constantes import DOWNLOAD_DIR
 
 def csv_download(path: str, nomeArquivo: str):
@@ -54,7 +54,15 @@ def ajust_dataFrame(path: str) -> pd.DataFrame:
     df['Qtde. Teórica'] = df['Qtde. Teórica'].str.replace('.', '')
     df['Qtde. Teórica'] = df['Qtde. Teórica'].astype(np.int64)
 
-    df['data_carga'] = datetime.now().date()
+    data_referencia = datetime.now()
+    dia_semana = data_referencia.weekday()
+
+    if dia_semana == 5:
+        data_referencia = data_referencia + timedelta(days=2)
+    elif dia_semana == 6:
+        data_referencia = data_referencia + timedelta(days=1)
+
+    df['data_carga'] = data_referencia.date()
 
     df = df.rename(columns={'Qtde. Teórica':'qtd', 'Part. (%)':'participacao',
                             'Part. (%)Acum.':'participacao_acumulada', 'Ação':'acao'})
